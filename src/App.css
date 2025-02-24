@@ -1,0 +1,19 @@
+/* App.css */
+
+/* Fondo global con degradado */
+.app-container {
+  @apply min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-100 to-blue-300;
+}
+
+/* Animación personalizada para botones */
+.btn {
+  @apply px-6 py-2 text-white font-semibold rounded-lg transition-all;
+}
+
+.btn-primary {
+  @apply bg-blue-500 hover:bg-blue-600 shadow-lg;
+}
+
+.btn-secondary {
+  @apply bg-gray-500 hover:bg-gray-600 shadow-lg;
+}
