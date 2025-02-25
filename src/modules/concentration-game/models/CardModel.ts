@@ -1,5 +1,8 @@
 export interface CardModel {
-    id: number;
+    id: string;
+    name: string;
+    imageId: string;
     base64: string;
+    flipped: boolean;
     matched: boolean;
 }

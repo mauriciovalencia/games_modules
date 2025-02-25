@@ -1,25 +1,58 @@
-import {CardModel} from "../../models/CardModel.ts";
-import {GameBoardModel} from "../../models/GameBoardModel.ts";
+import { useContext, useEffect } from "react";
+import { motion } from "framer-motion";
+import GameContext from "../../contexts/GameContext.ts";
 
 
-const GameBoard = (data: GameBoardModel) => {
-    const {gameState, handleCardClick} = data;
+const GameBoard = () => {
+    const { state, dispatch } = useContext(GameContext);
+
+    const handleCardClick = (index: number) => {
+        dispatch({ type: "FLIP_CARD", payload: index });
+    };
+
+    useEffect(() => {
+        console.log("Cartas actualizadas:", state.cards);
+    }, [state.cards]);
+
+    const numCards = state.cards.length;
+    const gridSize = numCards > 0 ? Math.ceil(Math.sqrt(numCards)) : 4;
+
     return (
-        <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
-            {gameState.cards.map((card: CardModel, index: number) => (
-                <div
+        <div
+            className="grid gap-2 w-full max-w-screen-md mx-auto bg-blue-200 p-4 rounded-lg shadow-lg border border-gray-600"
+            style={{
+                display: "grid",
+                gridTemplateColumns: `repeat(${gridSize}, 100px)`,
+                gridTemplateRows: `repeat(${Math.ceil(numCards / gridSize)}, 100px)`,
+                gap: "8px",
+                justifyContent: "center",
+                alignItems: "center",
+                minHeight: "500px",
+                minWidth: `${gridSize * 100 + (gridSize - 1) * 8}px`,
+            }}
+        >
+            {state.cards.map((card, index) => (
+                <motion.div
                     key={index}
-                    className={`w-24 h-32 flex items-center justify-center cursor-pointer border-2 border-gray-300 rounded-lg shadow-lg transition-all duration-300 ${
-                        gameState.flippedCards.includes(index) || gameState.matchedCards.includes(index) ? "bg-white" : "bg-gray-400"
-                    }`}
+                    className="flex items-center justify-center cursor-pointer border-2 border-gray-600 rounded-lg shadow-lg transition-all duration-300"
+                    style={{ width: "100px", height: "100px", backgroundColor: "#3B82F6" }}
                     onClick={() => handleCardClick(index)}
+                    whileTap={{ scale: 0.95 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                 >
-                    {gameState.flippedCards.includes(index) || gameState.matchedCards.includes(index) ? (
-                        <img src={card.base64} alt="Animal" className="w-full h-full object-cover rounded-lg" />
-                    ) : (
-                        <span className="text-3xl text-white font-bold">?</span>
+                    {(state.flippedCards.includes(index) || state.matchedCards.includes(index)) && (
+                        <motion.img
+                            src={card.base64}
+                            alt={card.name}
+                            className="w-full h-full object-cover rounded-lg"
+                            initial={{ opacity: 0, rotateY: 90 }}
+                            animate={{ opacity: 1, rotateY: 0 }}
+                            transition={{ duration: 0.5 }}
+                            style={{ backgroundColor: "#3B82F6", overflow: "hidden" }}
+                        />
                     )}
-                </div>
+                </motion.div>
             ))}
         </div>
     );

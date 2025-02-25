@@ -8,7 +8,7 @@ export class ImageClientMock implements ImageClientInterface {
                 url: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...",
                 uuid: "mock-uuid-1",
                 title: "Mock Image",
-                contentType: "image/png",
+                content_type: "image/png",
             },
         ];
     }

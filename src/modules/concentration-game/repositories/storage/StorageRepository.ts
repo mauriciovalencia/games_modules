@@ -40,14 +40,14 @@ export class StorageRepository<T> implements StorageRepositoryInterface<T> {
         return items;
     }
 
-    saveOnLocalStorageBrowser(params: { key: LocalStorageKeyModel; data: LocalStorageDataModel<T> }): void {
+    create(params: { key: LocalStorageKeyModel; data: LocalStorageDataModel<T> }): void {
         const {key, data} = params;
         try {
             const keyString = JSON.stringify(key);
             const existingData = localStorage.getItem(keyString);
 
             if (existingData) {
-                this.updateOnLocalStorageBrowser({key, data});
+                this.update({key, data});
             } else {
                 localStorage.setItem(keyString, JSON.stringify(data.value));
             }
@@ -56,7 +56,7 @@ export class StorageRepository<T> implements StorageRepositoryInterface<T> {
         }
     }
 
-    loadFromLocalStorageBrowser(params: { key: LocalStorageKeyModel }): LocalStorageResponseModel<T>[] | null {
+    find(params: { key: LocalStorageKeyModel }): LocalStorageResponseModel<T>[] | null {
         const {key} = params;
         try {
             const storedData = localStorage.getItem(JSON.stringify(key));
@@ -69,7 +69,7 @@ export class StorageRepository<T> implements StorageRepositoryInterface<T> {
         }
     }
 
-    loadFromLocalStorageBrowserAll(params: {
+    findAll(params: {
         page: number;
         pageSize?: number;
         dataType: string
@@ -88,15 +88,15 @@ export class StorageRepository<T> implements StorageRepositoryInterface<T> {
         }
     }
 
-    loadFromLocalStorageBrowserByKey(params: { key: string }): LocalStorageResponseModel<T> | null {
+    findByKey(params: { key: string }): LocalStorageResponseModel<T> | null {
         return this.loadFromLocalStorageBrowserByPredicate(key => key.id === params.key);
     }
 
-    loadFromLocalStorageBrowserByName(params: { name: string }): LocalStorageResponseModel<T> | null {
+    findByName(params: { name: string }): LocalStorageResponseModel<T> | null {
         return this.loadFromLocalStorageBrowserByPredicate(key => key.name === params.name);
     }
 
-    loadFromLocalStorageBrowserByDataType(params: { dataType: string }): LocalStorageResponseModel<T>[] | null {
+    findByDataType(params: { dataType: string }): LocalStorageResponseModel<T>[] | null {
         try {
             const items = this.getItemsByKeyPredicate(key => key.dataType === params.dataType);
             return items.length > 0 ? items : null;
@@ -116,7 +116,7 @@ export class StorageRepository<T> implements StorageRepositoryInterface<T> {
         }
     }
 
-    updateOnLocalStorageBrowser(params: { key: LocalStorageKeyModel; data: LocalStorageDataModel<T> }): {
+    update(params: { key: LocalStorageKeyModel; data: LocalStorageDataModel<T> }): {
         key: LocalStorageKeyModel,
         isUpdated: boolean
     } {
@@ -143,7 +143,7 @@ export class StorageRepository<T> implements StorageRepositoryInterface<T> {
         }
     }
 
-    removeFromLocalStorageBrowserByKey(params: { key: string }): { isDeleted: boolean } {
+    delete(params: { key: string }): { isDeleted: boolean } {
         try {
             const recordFound = this.loadFromLocalStorageBrowserByPredicate(key => key.id === params.key);
             if (recordFound) {
@@ -164,7 +164,7 @@ export class StorageRepository<T> implements StorageRepositoryInterface<T> {
         }
     }
 
-    removeFromLocalStorageBrowserByDataType(params: { dataType: string }): {
+    deleteByDataType(params: { dataType: string }): {
         key: LocalStorageKeyModel,
         isDeleted: boolean
     }[] {
@@ -198,7 +198,7 @@ export class StorageRepository<T> implements StorageRepositoryInterface<T> {
         }
     }
 
-    resetOnLocalStorageBrowser(): void {
+    resetStorage(): void {
         try {
             localStorage.clear();
         } catch (error) {

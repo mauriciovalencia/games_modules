@@ -1,6 +1,7 @@
 import {ImageModel} from "../models/ImageModel.ts";
 import {ImageResponseDto} from "../dtos/ImageResponseDto.ts";
 import {ImageResponseModel} from "../models/ImageResponseModel.ts";
+import {CardModel} from "../models/CardModel.ts";
 
 export class ImageMapper {
     static fromResponseDtoToImageModel(dto: ImageResponseDto): ImageModel {
@@ -8,7 +9,7 @@ export class ImageMapper {
             id: dto.uuid,
             url: dto.url,
             name: dto.title,
-            content_type: dto.contentType,
+            content_type: dto.content_type,
             size: 0,
             base_64: null,
             created_at: new Date(),
@@ -22,13 +23,25 @@ export class ImageMapper {
             id: dto.uuid,
             url: dto.url,
             name: dto.title,
-            content_type: dto.contentType,
+            content_type: dto.content_type,
             size: 0,
             base_64: null,
             created_at: new Date(),
             updated_at: null,
             deleted_at: null,
         };
+    }
+
+    static fromImageModelToCardModel(params:{id: number, image: ImageModel}): CardModel {
+        const {id, image} = params;
+        return {
+            id : id.toString(),
+            name: image.name,
+            imageId: image.id,
+            base64: image.base_64 || '',
+            flipped: false,
+            matched: false
+        }
     }
 
 }

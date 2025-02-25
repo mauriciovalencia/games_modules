@@ -4,18 +4,18 @@ export class ImageResponseDto implements ImageResponseModel{
     url: string;
     uuid: string;
     title: string;
-    contentType: string;
+    content_type: string;
 
     constructor(data:{
         url: string,
         uuid: string,
         title: string,
-        contentType: string
+        content_type: string
     }) {
         this.url = this.validateString(data.url, "url");
         this.uuid = this.validateUUID(data.uuid);
         this.title = this.validateString(data.title, "title");
-        this.contentType = this.validateContentType(data.contentType);
+        this.content_type = this.validateContentType(data.content_type);
     }
 
     private validateString(value: string, fieldName: string): string {

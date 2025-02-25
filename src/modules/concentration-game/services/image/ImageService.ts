@@ -34,7 +34,7 @@ export class ImageService implements ImageServiceInterface {
     private async saveImagesOnStorage(images: ImageModel[]): Promise<ImageModel[]> {
         try {
             await Promise.all(images.map(async (image: ImageModel) => {
-                this.storageRepo.saveOnLocalStorageBrowser({
+                this.storageRepo.create({
                     key: {
                         id: image.id,
                         name: image.name,
@@ -55,7 +55,6 @@ export class ImageService implements ImageServiceInterface {
             let images: ImageModel[] = response.map((value: ImageResponseModel) => {
                 return ImageMapper.fromResponseModelToImageModel(value);
             });
-
             images = await this.convertImagesToBase64(images);
             images = await this.saveImagesOnStorage(images);
             return images;
@@ -71,10 +70,10 @@ export class ImageService implements ImageServiceInterface {
         dataType: string;
     }): Promise<ImageModel[]> {
         try {
-            const storedImages = this.storageRepo.loadFromLocalStorageBrowserAll(params);
+            const storedImages = this.storageRepo.findAll(params);
             if (!storedImages) return [];
             return storedImages.map((value) => {
-                return value.data.value;
+                return value.data as unknown as ImageModel;
             });
         } catch (e) {
             console.error("Failed to load images from storage: ", e);
@@ -84,7 +83,7 @@ export class ImageService implements ImageServiceInterface {
 
     async fetchImageByIdFromStorage(params: { id: string }): Promise<ImageModel | null> {
         try {
-            const storedImage = this.storageRepo.loadFromLocalStorageBrowserByKey({
+            const storedImage = this.storageRepo.findByKey({
                 key: params.id
             });
             if (!storedImage) return null;
@@ -97,7 +96,7 @@ export class ImageService implements ImageServiceInterface {
 
     fetchImageByNameFromStorage(params: { name: string }): Promise<ImageModel | null> {
         try {
-            const storedImage = this.storageRepo.loadFromLocalStorageBrowserByKey({
+            const storedImage = this.storageRepo.findByKey({
                 key: params.name
             });
             if (!storedImage) return Promise.resolve(null);
@@ -110,7 +109,7 @@ export class ImageService implements ImageServiceInterface {
 
     async fetchImagesByDataTypeFromStorage(params: { dataType: string }): Promise<ImageModel[] | null> {
         try {
-            const storedImages = this.storageRepo.loadFromLocalStorageBrowserByDataType({dataType: params.dataType});
+            const storedImages = this.storageRepo.findByDataType({dataType: params.dataType});
             if (!storedImages) return [];
             return storedImages.map((value) => {
                 return value.data.value;
@@ -126,7 +125,7 @@ export class ImageService implements ImageServiceInterface {
         const id = createData.id;
         try {
             createData.base_64 = await ImageConversion.toBase64(createData.url);
-            this.storageRepo.saveOnLocalStorageBrowser({
+            this.storageRepo.create({
                 key: {
                     id,
                     name: createData.name,
@@ -143,7 +142,7 @@ export class ImageService implements ImageServiceInterface {
     async updateImageInStorage(params: { id: string, updatedData: ImageModel }): Promise<ImageModel | null> {
         const {id, updatedData} = params;
         try {
-            this.storageRepo.updateOnLocalStorageBrowser({
+            this.storageRepo.update({
                 key: {id, name: updatedData.name, dataType: this.DATA_TYPE_TAG},
                 data: {value: updatedData}
             });
@@ -157,7 +156,7 @@ export class ImageService implements ImageServiceInterface {
     async removeImageFromStorage(params: { id: string }): Promise<{ isDeleted: boolean } | null> {
         const {id} = params;
         try {
-            const isDeleted = this.storageRepo.removeFromLocalStorageBrowserByKey({key: id});
+            const isDeleted = this.storageRepo.delete({key: id});
             if (!isDeleted) return null;
             return isDeleted;
         } catch (e) {
@@ -168,7 +167,7 @@ export class ImageService implements ImageServiceInterface {
 
     removeAllImagesFromStorage(): Promise<{ key: string; isDeleted: boolean }[] | null> {
         try {
-            const deletedKeys = this.storageRepo.removeFromLocalStorageBrowserByDataType({dataType: this.DATA_TYPE_TAG});
+            const deletedKeys = this.storageRepo.deleteByDataType({dataType: this.DATA_TYPE_TAG});
             return Promise.resolve(deletedKeys ? deletedKeys.map(item => ({
                 key: item.key.id ?? '', // Provide a default empty string if id is null or undefined
                 isDeleted: item.isDeleted

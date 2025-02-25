@@ -1,6 +1,6 @@
 import {UserModel} from "./UserModel.ts";
 
-export interface ScoreBoardModel {
+export interface GameScoreBoardModel {
     user: UserModel;
     attempts: number;
     matches: number;
