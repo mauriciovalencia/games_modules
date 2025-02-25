@@ -6,13 +6,17 @@ import GameContext from "../../contexts/GameContext.ts";
 const GameBoard = () => {
     const { state, dispatch } = useContext(GameContext);
 
+    if (!state.cards || state.cards.length === 0) {
+        return <p>Cargando cartas...</p>;
+    }
+
     const handleCardClick = (index: number) => {
         dispatch({ type: "FLIP_CARD", payload: index });
     };
 
-    useEffect(() => {
+    /*useEffect(() => {
         console.log("Cartas actualizadas:", state.cards);
-    }, [state.cards]);
+    }, [state.cards]);*/
 
     const numCards = state.cards.length;
     const gridSize = numCards > 0 ? Math.ceil(Math.sqrt(numCards)) : 4;

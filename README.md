@@ -1,50 +1,57 @@
-# React + TypeScript + Vite
+# Concentration Games
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<img alt="Axon Client" src="./src/assets/logo.png" title="Axon" width="200"/>
 
-Currently, two official plugins are available:
+User interface for playing memory-based concentration games.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Table of Contents**
+- [Environment requirements](#markdown-header-environment-requirements)
+- [Environment Variables](#markdown-header-environment-variables)
+- [Installation](#markdown-header-installation)
+- [Execution](#markdown-header-execution)
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Environment requirements
+```
+- Node v22.12.x or more
+- Pnpm 9.15.x or more
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Then, on local environment case, just cloning the repo in your local environment, and make a `.env`
+file with the mandatory variables mentioned in [.env.example](/.env.example)
+and described in detail in this document.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## Environment Variables
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+Operational
+
+| Name           | Type     | Options    | Default | Description                    |
+|----------------|----------|------------|---------|--------------------------------|
+| VITE_DEBUG     | Boolean  | true/false | true    | Running on dev/prod environment |
+| VITE_APP_NAME  | String   | AxonClient| AxonClient| Name of application            |
+
+Functional
+
+| Name                | Type    | Options | Default | Description                         |
+|---------------------|---------|---------|---------|-------------------------------------|
+| VITE_API_IMAGES_URL | String  |         |    http://localhost:8080/users   | User API service url                |
+|    |   |         |         |               |
+
+
+## Installation
+
+```bash
+pnpm install
+```
+
+## Execution
+
+```bash
+# development
+pnpm start
+
+# development watch behavior 
+pnpm start:dev
+
+# production
+pnpm start:prod
 ```

@@ -1,10 +1,10 @@
-import React, { useReducer } from "react";
+import React, {useReducer} from "react";
 import GameContext from "./GameContext";
-import { gameReducer } from "./GameReducer";
-import {GameContextType, GameStateModel} from "./Types";
+import {gameReducer} from "./GameReducer";
+import {GameStateModel} from "./Types";
 
 const initialState: GameStateModel = {
-    user: { name: "Player" },
+    user: {name: "Player"},
     attempts: 0,
     matches: 0,
     cards: [],
@@ -12,12 +12,12 @@ const initialState: GameStateModel = {
     matchedCards: [],
 };
 
-const GameState: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const GameState: React.FC<{ children: React.ReactNode }> = ({children}) => {
     const [state, dispatch] = useReducer(gameReducer, initialState);
 
     return (
-        <GameContext.Provider value={{ state, dispatch } as GameContextType}>
-        {children}
+        <GameContext.Provider value={{state, dispatch}}>
+            {children}
         </GameContext.Provider>
     );
 };
