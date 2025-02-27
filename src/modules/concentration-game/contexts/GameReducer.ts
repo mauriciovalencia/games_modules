@@ -1,38 +1,51 @@
-import {GameAction, GameStateModel} from "./Types";
+import {
+    CARD_FLIP_ACTION, CARD_MATCH_ACTION,
+    GameContexStateType,
+    GET_GAME_BOARD_DATA,
+    GET_GAME_CARDS_DATA,
+    GET_GAME_SCORE_BOARD_DATA,
+    GET_GAME_STATE_DATA,
+} from "./Types.ts";
 
-export const gameReducer = (state: GameStateModel, action: GameAction): GameStateModel => {
-    switch (action.type) {
-        case "INITIALIZE_GAME":
+const GameReducer = (
+    state: GameContexStateType,
+    action: { payload: any; type: string }
+) => {
+    const {payload, type} = action;
+    switch (type) {
+        case GET_GAME_CARDS_DATA:
             return {
                 ...state,
-                cards: action.payload, // Actualiza las cartas
+                gameCardsData: payload,
             };
-
-        case "FLIP_CARD":
+        case GET_GAME_BOARD_DATA:
             return {
                 ...state,
-                flippedCards: [...state.flippedCards, action.payload],
+                gameBoardData: payload,
             };
-
-        case "MATCH_CARDS":
+        case GET_GAME_SCORE_BOARD_DATA:
             return {
                 ...state,
-                matchedCards: [...state.matchedCards, ...state.flippedCards],
-                flippedCards: [],
-                matches: state.matches + 1,
+                gameScoreBoardData: payload,
             };
-
-        case "RESET_GAME":
+        case GET_GAME_STATE_DATA:
             return {
                 ...state,
-                attempts: 0,
-                matches: 0,
-                flippedCards: [],
-                matchedCards: [],
-                cards: [], // Esto debería llenarse al reiniciar
+                gameStateData: payload,
             };
-
+        case CARD_FLIP_ACTION:
+            return {
+                ...state,
+                gameStateData: payload,
+            };
+        case CARD_MATCH_ACTION:
+            return {
+                ...state,
+                gameStateData: payload,
+            };
         default:
             return state;
     }
-};
+}
+
+export default GameReducer;

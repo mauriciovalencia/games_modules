@@ -1,17 +1,42 @@
-import { createContext } from "react";
-import { GameContextType } from "./Types";
+import {createContext} from "react";
+import {GameContexStateType} from "./Types";
+import {GameCardDto} from "../dtos/GameCardDto.ts";
+import {GameBoardDto} from "../dtos/GameBoardDto.ts";
+import {GameScoreBoardDto} from "../dtos/GameScoreBoardDto.ts";
+import {GameStateDto} from "../dtos/GameStateDto.ts";
 
-const defaultValue: GameContextType = {
-    state: {
-        user: { name: "Player" },
-        attempts: 0,
-        matches: 0,
-        cards: [],
-        flippedCards: [],
-        matchedCards: [],
+const GameContext = createContext<GameContexStateType>({
+    // init game
+    initGame: () => {
     },
-    dispatch: () => {} // No hace nada por defecto
-};
 
-const GameContext = createContext<GameContextType>(defaultValue);
+    // cards
+    gameCardsData: [new GameCardDto()],
+    showGameCardsData: false,
+    getGameCardsData: () => {
+    },
+
+    // board
+    gameBoardData: new GameBoardDto(),
+    showGameBoardData: false,
+    getGameBoardData: () => {
+    },
+
+    // score board
+    gameScoreBoardData: new GameScoreBoardDto(),
+    showGameScoreBoardData: false,
+    getGameScoreBoardData: () => {
+    },
+
+    // game state
+    gameStateData: new GameStateDto(),
+    showGameStateData: false,
+    getGameStateModelData: () => {
+    },
+
+    flipCard: () => {
+    },
+    matchCard: () => {
+    }
+});
 export default GameContext;

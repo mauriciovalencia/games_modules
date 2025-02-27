@@ -1,7 +1,7 @@
 {
   "name": "concentration-game",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/node": "^22.13.5",
     "framer-motion": "12.4.7",
     "lz-string": "1.5.0",
     "react": "19.0.0",

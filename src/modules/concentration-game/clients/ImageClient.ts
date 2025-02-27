@@ -1,9 +1,10 @@
 import {ImageClientInterface} from "./ImageClientInterface.ts";
 import {ImageResponseModel} from "../models/ImageResponseModel.ts";
 import {ImageResponseDto} from "../dtos/ImageResponseDto.ts";
+import GameConfig from "../config/GameConfig.ts";
 
 export class ImageClient implements ImageClientInterface{
-    private readonly API_URL = "https://challenge-uno.vercel.app/api/images";
+    private readonly API_URL = GameConfig.API_IMAGE_URL;
 
     async fetchImages(): Promise<ImageResponseModel[]> {
         try {

@@ -31,7 +31,7 @@ export class ImageService implements ImageServiceInterface {
         }
     }
 
-    private async saveImagesOnStorage(images: ImageModel[]): Promise<ImageModel[]> {
+    private async saveImages(images: ImageModel[]): Promise<ImageModel[]> {
         try {
             await Promise.all(images.map(async (image: ImageModel) => {
                 this.storageRepo.create({
@@ -56,7 +56,8 @@ export class ImageService implements ImageServiceInterface {
                 return ImageMapper.fromResponseModelToImageModel(value);
             });
             images = await this.convertImagesToBase64(images);
-            images = await this.saveImagesOnStorage(images);
+            // TODO: Temporally disabled cause LocalStorage have a limit of 10Mb, and maybe it´s not have this function here.
+            // images = await this.saveImages(images);
             return images;
         } catch (e) {
             console.error("Failed to load images from service: ", e);
@@ -64,7 +65,7 @@ export class ImageService implements ImageServiceInterface {
         }
     }
 
-    async fetchImagesFromStorage(params: {
+    async getImages(params: {
         page: number;
         pageSize?: number;
         dataType: string;
@@ -81,7 +82,7 @@ export class ImageService implements ImageServiceInterface {
         }
     }
 
-    async fetchImageByIdFromStorage(params: { id: string }): Promise<ImageModel | null> {
+    async getImageById(params: { id: string }): Promise<ImageModel | null> {
         try {
             const storedImage = this.storageRepo.findByKey({
                 key: params.id
@@ -94,7 +95,7 @@ export class ImageService implements ImageServiceInterface {
         }
     }
 
-    fetchImageByNameFromStorage(params: { name: string }): Promise<ImageModel | null> {
+    getImageByName(params: { name: string }): Promise<ImageModel | null> {
         try {
             const storedImage = this.storageRepo.findByKey({
                 key: params.name
@@ -107,7 +108,7 @@ export class ImageService implements ImageServiceInterface {
         }
     }
 
-    async fetchImagesByDataTypeFromStorage(params: { dataType: string }): Promise<ImageModel[] | null> {
+    async getImagesByDataType(params: { dataType: string }): Promise<ImageModel[] | null> {
         try {
             const storedImages = this.storageRepo.findByDataType({dataType: params.dataType});
             if (!storedImages) return [];
@@ -120,7 +121,7 @@ export class ImageService implements ImageServiceInterface {
         }
     }
 
-    async storeImage(params: { createData: ImageModel }): Promise<ImageModel | null> {
+    async saveImage(params: { createData: ImageModel }): Promise<ImageModel | null> {
         const {createData} = params;
         const id = createData.id;
         try {
@@ -139,7 +140,7 @@ export class ImageService implements ImageServiceInterface {
         }
     }
 
-    async updateImageInStorage(params: { id: string, updatedData: ImageModel }): Promise<ImageModel | null> {
+    async updateImage(params: { id: string, updatedData: ImageModel }): Promise<ImageModel | null> {
         const {id, updatedData} = params;
         try {
             this.storageRepo.update({
@@ -153,7 +154,7 @@ export class ImageService implements ImageServiceInterface {
         }
     }
 
-    async removeImageFromStorage(params: { id: string }): Promise<{ isDeleted: boolean } | null> {
+    async deleteImage(params: { id: string }): Promise<{ isDeleted: boolean } | null> {
         const {id} = params;
         try {
             const isDeleted = this.storageRepo.delete({key: id});
@@ -165,7 +166,7 @@ export class ImageService implements ImageServiceInterface {
         }
     }
 
-    removeAllImagesFromStorage(): Promise<{ key: string; isDeleted: boolean }[] | null> {
+    deleteImages(): Promise<{ key: string; isDeleted: boolean }[] | null> {
         try {
             const deletedKeys = this.storageRepo.deleteByDataType({dataType: this.DATA_TYPE_TAG});
             return Promise.resolve(deletedKeys ? deletedKeys.map(item => ({

@@ -1,4 +1,4 @@
-import {UserModel} from "./UserModel.ts";
+import { UserModel } from "./UserModel.ts";
 
 export interface GameScoreBoardModel {
     user: UserModel;

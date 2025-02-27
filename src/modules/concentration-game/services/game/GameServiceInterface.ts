@@ -1,7 +1,7 @@
 import {GameStateModel} from "../../models/GameStateModel.ts";
 import {GameScoreBoardModel} from "../../models/GameScoreBoardModel.ts";
 import {GameBoardModel} from "../../models/GameBoardModel.ts";
-import {CardModel} from "../../models/CardModel.ts";
+import {GameCardModel} from "../../models/GameCardModel.ts";
 import {ImageModel} from "../../models/ImageModel.ts";
 
 export interface GameServiceInterface {
@@ -9,12 +9,12 @@ export interface GameServiceInterface {
 
     getImages(): Promise<ImageModel[]>;
 
-    getCards(): Promise<CardModel[]>;
-    setCards(): Promise<CardModel[]>;
+    getCards(): Promise<GameCardModel[]>;
+    buildGameCards(): Promise<GameCardModel[]>;
 
-    //setCard(card: CardModel): void;
-    //setCardMatched(card: CardModel): void;
-    //setCardFlipped(card: CardModel): void;
+    //setCard(card: GameCardModel): void;
+    //setCardMatched(card: GameCardModel): void;
+    //setCardFlipped(card: GameCardModel): void;
 
     setGameState(gameState: GameStateModel): Promise<void>;
 

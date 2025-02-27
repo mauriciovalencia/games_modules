@@ -1,9 +1,9 @@
 import './App.css'
-import ConcentrationGame from "./modules/concentration-game/ConcentrationGame.tsx";
+import AppModuleContainer from "./AppModuleContainer.tsx";
 
 function App() {
     return (
-        <ConcentrationGame/>
+        <AppModuleContainer/>
     );
 }
 

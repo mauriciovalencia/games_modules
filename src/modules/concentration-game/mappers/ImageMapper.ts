@@ -1,7 +1,7 @@
 import {ImageModel} from "../models/ImageModel.ts";
 import {ImageResponseDto} from "../dtos/ImageResponseDto.ts";
 import {ImageResponseModel} from "../models/ImageResponseModel.ts";
-import {CardModel} from "../models/CardModel.ts";
+import {GameCardModel} from "../models/GameCardModel.ts";
 
 export class ImageMapper {
     static fromResponseDtoToImageModel(dto: ImageResponseDto): ImageModel {
@@ -32,7 +32,7 @@ export class ImageMapper {
         };
     }
 
-    static fromImageModelToCardModel(params:{id: number, image: ImageModel}): CardModel {
+    static fromImageModelToCardModel(params:{id: number, image: ImageModel}): GameCardModel {
         const {id, image} = params;
         return {
             id : id.toString(),

@@ -1,6 +1,6 @@
 # Concentration Games
 
-<img alt="Axon Client" src="./src/assets/logo.png" title="Axon" width="200"/>
+<img alt="Concentration Games" src="./src/assets/logo.png" title="Games" width="200"/>
 
 User interface for playing memory-based concentration games.
 
@@ -31,10 +31,10 @@ Operational
 
 Functional
 
-| Name                | Type    | Options | Default | Description                         |
-|---------------------|---------|---------|---------|-------------------------------------|
-| VITE_API_IMAGES_URL | String  |         |    http://localhost:8080/users   | User API service url                |
-|    |   |         |         |               |
+| Name                | Type    | Options | Default                      | Description                         |
+|---------------------|---------|---------|------------------------------|-------------------------------------|
+| VITE_API_IMAGES_URL | String  |         | https://challenge-uno.vercel.app/api/images | User API service url                |
+|    |   |         |                              |               |
 
 
 ## Installation

@@ -1,8 +1,8 @@
 import {StorageRepositoryInterface} from "../../repositories/storage/StorageRepositoryInterface.ts";
 import {StorageRepository} from "../../repositories/storage/StorageRepository.ts";
 import {GameServiceInterface} from "./GameServiceInterface.ts";
-import {CardService} from "../cards/CardService.ts";
-import {CardServiceInterface} from "../cards/CardServiceInterface.ts";
+import {GameCardService} from "./cards/GameCardService.ts";
+import {GameCardServiceInterface} from "./cards/GameCardServiceInterface.ts";
 import {GameStateModel} from "../../models/GameStateModel.ts";
 import {GameStateServiceInterface} from "./GameStateServiceInterface.ts";
 import {GameStateService} from "./GameStateService.ts";
@@ -12,7 +12,7 @@ import {GameScoreBoardService} from "./GameScoreBoardService.ts";
 import {GameBoardModel} from "../../models/GameBoardModel.ts";
 import {GameBoardServiceInterface} from "./GameBoardServiceInterface.ts";
 import {GameBoardService} from "./GameBoardService.ts";
-import {CardModel} from "../../models/CardModel.ts";
+import {GameCardModel} from "../../models/GameCardModel.ts";
 import {ImageServiceInterface} from "../image/ImageServiceInterface.ts";
 import {ImageService} from "../image/ImageService.ts";
 import {ImageModel} from "../../models/ImageModel.ts";
@@ -21,7 +21,7 @@ export class GameService implements GameServiceInterface {
 
     private storage: StorageRepositoryInterface<never>
     private imageService: ImageServiceInterface;
-    private cardService: CardServiceInterface;
+    private cardService: GameCardServiceInterface;
     private gameStateService: GameStateServiceInterface;
     private gameScoreBoardService: GameScoreBoardServiceInterface;
     private gemeBoardService: GameBoardServiceInterface;
@@ -29,7 +29,7 @@ export class GameService implements GameServiceInterface {
     constructor() {
         this.storage = new StorageRepository();
         this.imageService = new ImageService();
-        this.cardService = new CardService();
+        this.cardService = new GameCardService();
         this.gameStateService = new GameStateService();
         this.gameScoreBoardService = new GameScoreBoardService();
         this.gemeBoardService = new GameBoardService();
@@ -58,7 +58,7 @@ export class GameService implements GameServiceInterface {
         }
     }
 
-    async setCards(): Promise<CardModel[]> {
+    async buildGameCards(): Promise<GameCardModel[]> {
         try {
             const cards = await this.cardService.createCards();
             if (!cards) {
@@ -70,7 +70,8 @@ export class GameService implements GameServiceInterface {
             throw new Error("Failed to set cards");
         }
     }
-    async getCards(): Promise<CardModel[]> {
+
+    async getCards(): Promise<GameCardModel[]> {
         try {
             return await this.cardService.getCards();
         }catch (e) {

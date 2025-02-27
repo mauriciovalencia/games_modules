@@ -1,4 +1,4 @@
-export interface CardModel {
+export interface GameCardModel {
     id: string;
     name: string;
     imageId: string;
