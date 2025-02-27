@@ -17,6 +17,8 @@ export interface ImageServiceInterface {
 
     saveImage(params: { createData: ImageModel }): Promise<ImageModel | null>;
 
+    saveImage(params: { createData: ImageModel[] }): Promise<ImageModel[] | null>;
+
     updateImage(params: { id: string; updatedData: ImageModel }): Promise<ImageModel | null>;
 
     deleteImage(params: { id: string }): Promise<{ isDeleted: boolean } | null>;

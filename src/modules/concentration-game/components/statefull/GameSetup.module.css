@@ -1,0 +1,105 @@
+.game-setup {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: #f9fafb;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.game-setup__title {
+    font-size: 1.8rem;
+    color: #2563eb;
+    margin-bottom: 1rem;
+}
+
+.game-setup__label {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #374151;
+}
+
+.game-setup__input {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 2px solid #d1d5db;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.game-setup__input:focus {
+    border-color: #2563eb;
+}
+
+.game-setup__subtitle {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    color: #1f2937;
+}
+
+.game-setup__grid-options {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 0.5rem;
+}
+
+.game-setup__button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.game-setup__button:hover {
+    background: #2563eb;
+}
+
+.game-setup__selected-grid {
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: #374151;
+    font-weight: 500;
+}
+
+.game-setup__start-button {
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 0.75rem;
+    font-size: 1.1rem;
+    background: #10b981;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.game-setup__start-button:hover {
+    background: #059669;
+}
+
+/* 🌍 Responsive */
+@media (max-width: 500px) {
+    .game-setup {
+        padding: 1rem;
+    }
+
+    .game-setup__grid-options {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .game-setup__button {
+        width: 100%;
+    }
+}

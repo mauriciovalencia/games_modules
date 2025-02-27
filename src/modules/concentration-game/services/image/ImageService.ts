@@ -31,7 +31,7 @@ export class ImageService implements ImageServiceInterface {
         }
     }
 
-    private async saveImages(images: ImageModel[]): Promise<ImageModel[]> {
+    private async saveImages(images: ImageModel[]): Promise<ImageModel[] | null> {
         try {
             await Promise.all(images.map(async (image: ImageModel) => {
                 this.storageRepo.create({

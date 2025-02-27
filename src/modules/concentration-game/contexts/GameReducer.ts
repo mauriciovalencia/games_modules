@@ -1,5 +1,5 @@
 import {
-    CARD_FLIP_ACTION, CARD_MATCH_ACTION,
+    CARD_FLIP_ACTION,
     GameContexStateType,
     GET_GAME_BOARD_DATA,
     GET_GAME_CARDS_DATA,
@@ -34,11 +34,6 @@ const GameReducer = (
                 gameStateData: payload,
             };
         case CARD_FLIP_ACTION:
-            return {
-                ...state,
-                gameStateData: payload,
-            };
-        case CARD_MATCH_ACTION:
             return {
                 ...state,
                 gameStateData: payload,

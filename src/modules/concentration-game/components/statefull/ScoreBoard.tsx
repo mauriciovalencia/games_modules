@@ -1,28 +1,46 @@
-import { useContext, useEffect, useState } from "react";
+import {useContext, useEffect, useState} from "react";
 import GameContext from "../../contexts/GameContext.ts";
-import { GameScoreBoardDto } from "../../dtos/GameScoreBoardDto.ts";
+import styles from "./ScoreBoard.module.css";
 
 const ScoreBoard = () => {
-    const { gameScoreBoardData } = useContext(GameContext);
-    const [gameScore, setGameScore] = useState<GameScoreBoardDto | null>(null);
+    const [user, setUser] = useState<string | null>(null);
+    const [isGameWon, setIsGameWon] = useState(false);
+    const {gameScoreBoardData, gameStateData} = useContext(GameContext);
 
     useEffect(() => {
-        if (gameScoreBoardData) {
-            setGameScore(gameScoreBoardData);
+        if (gameScoreBoardData?.user?.name) {
+            setUser(gameScoreBoardData.user.name);
         }
     }, [gameScoreBoardData]);
 
+    useEffect(() => {
+        const totalPairs = (gameStateData.numRows * gameStateData.numCols) / gameStateData.matchingSetSize;
+        if (gameScoreBoardData?.matches === totalPairs) {
+            setIsGameWon(true);
+        }
+    }, [gameScoreBoardData?.matches, gameStateData]);
+
     return (
-        <div>
-            <h1 className="text-4xl font-bold text-blue-600 mb-4">Memory Game</h1>
-            <p className="text-lg">
-                Player: <span className="font-semibold">{gameScore?.user?.name}</span>
+        <div className={styles["score-board"]}>
+            <h1 className={styles["score-board__title"]}>Memory Game</h1>
+
+            <p className={styles["score-board__player"]}>
+                Player: <span className={styles["score-board__player-name"]}>{user || "Loading..."}</span>
             </p>
-            <p className="text-lg mb-4">
-                Matches: <span className="font-semibold">{gameScore?.matches}</span> - Attempts:{" "}
-                <span className="font-semibold">{gameScore?.attempts}</span>
+
+            <p className={styles["score-board__stats"]}>
+                Matches: <span className={styles["score-board__stat-value"]}>{gameScoreBoardData?.matches ?? 0}</span> -
+                Errors: <span className={styles["score-board__stat-value"]}>{gameScoreBoardData?.errors ?? 0}</span> -
+                Attempts: <span className={styles["score-board__stat-value"]}>{gameScoreBoardData?.attempts ?? 0}</span>
             </p>
+
+            {isGameWon && (
+                <div className={styles["score-board__congratulations"]}>
+                    🎉 Congratulations, {user}! You have found all the pairs. 🎉
+                </div>
+            )}
         </div>
+
     );
 };
 

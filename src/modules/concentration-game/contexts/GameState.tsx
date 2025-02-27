@@ -15,6 +15,7 @@ import {container} from "../iocContainer.ts";
 import {GameControllerInterface} from "../controllers/GameControllerInterface.ts";
 import GameReducer from "./GameReducer.ts";
 import {GameScoreBoardModel} from "../models/GameScoreBoardModel.ts";
+import {GameStateModel} from "../models/GameStateModel.ts";
 
 const GameState = (props: any) => {
     const gameController = container.resolve<GameControllerInterface>("GameController");
@@ -47,11 +48,14 @@ const GameState = (props: any) => {
         showGameStateData: true,
         getGameStateModelData: () => {
         },
+        setGameStateModelData: () => {
+
+        },
 
         flipCard: () => {
         },
-        matchCard: () => {
-        },
+        resetGame: () => {
+        }
     };
 
     const [state, dispatch] = useReducer(GameReducer, initialState);
@@ -66,6 +70,7 @@ const GameState = (props: any) => {
             user: result.gameState.user,
             matches: result.gameState.matches,
             attempts: result.gameState.attempts,
+            errors: result.gameState.errors,
         }
         dispatch({type: GET_GAME_SCORE_BOARD_DATA, payload: gameScoreBoard || new GameScoreBoardDto()})
     }
@@ -90,6 +95,23 @@ const GameState = (props: any) => {
         dispatch({type: GET_GAME_STATE_DATA, payload: gameState || new GameStateDto()})
     }
 
+    const setGameStateModelData = async (data: GameStateModel) => {
+        try {
+            await gameController.setGameState(data);
+            const gameStateData: GameStateModel = await gameController.getGameState();
+            const gameScoreBoard = new GameScoreBoardDto({
+                user: gameStateData.user,
+                matches: gameStateData.matches,
+                attempts: gameStateData.attempts,
+                errors: gameStateData.errors,
+            })
+            dispatch({type: GET_GAME_SCORE_BOARD_DATA, payload: gameScoreBoard || new GameScoreBoardDto()})
+        } catch (e) {
+            console.error(e);
+            throw new Error("Failed to set game state");
+        }
+    }
+
     const flipCard = async (index: number) => {
         const result = await gameController.handleCardClick(index);
 
@@ -99,8 +121,13 @@ const GameState = (props: any) => {
             user: result.gameState.user,
             matches: result.gameState.matches,
             attempts: result.gameState.attempts,
+            errors: result.gameState.errors,
         }
         dispatch({type: GET_GAME_SCORE_BOARD_DATA, payload: gameScoreBoard || new GameScoreBoardDto()})
+    }
+
+    const resetGame = async () => {
+        await gameController.resetGame();
     }
 
     return (
@@ -128,8 +155,10 @@ const GameState = (props: any) => {
             gameStateData: state.gameStateData,
             showGameStateData: state.showGameStateData,
             getGameStateModelData,
+            setGameStateModelData,
 
             flipCard,
+            resetGame,
         }}>
             {props.children}
         </GameContext.Provider>

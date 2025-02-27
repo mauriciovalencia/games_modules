@@ -27,9 +27,10 @@ export type GameContexStateType = {
     gameStateData: GameStateModel;
     showGameStateData: boolean;
     getGameStateModelData: () => void;
+    setGameStateModelData: (data: GameStateModel) => void;
 
     flipCard:(index:number) => void;
-    matchCard:() => void;
+    resetGame:()=>void;
 }
 
 export const GET_GAME_CARDS_DATA = "GET_GAME_CARDS_DATA";
@@ -37,4 +38,3 @@ export const GET_GAME_BOARD_DATA = "GET_GAME_BOARD_DATA";
 export const GET_GAME_SCORE_BOARD_DATA = "GET_GAME_SCORE_BOARD_DATA";
 export const GET_GAME_STATE_DATA = "GET_GAME_STATE_DATA";
 export const CARD_FLIP_ACTION = "CARD_FLIP_ACTION";
-export const CARD_MATCH_ACTION = "CARD_MATCH_ACTION";

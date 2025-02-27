@@ -33,10 +33,12 @@ const GameContext = createContext<GameContexStateType>({
     showGameStateData: false,
     getGameStateModelData: () => {
     },
+    setGameStateModelData: () => {
+    },
 
     flipCard: () => {
     },
-    matchCard: () => {
-    }
+    resetGame: () => {
+    },
 });
 export default GameContext;

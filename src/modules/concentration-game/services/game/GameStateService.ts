@@ -12,7 +12,7 @@ export class GameStateService implements GameStateServiceInterface {
 
     async setGameState(gameState: GameStateModel): Promise<void> {
         try {
-            const repoFindResult = this.storageRepository.findByKey({key: this.DATA_TYPE_TAG});
+            const repoFindResult = this.storageRepository.findByKey({ key: this.DATA_TYPE_TAG });
             if (!repoFindResult) {
                 this.storageRepository.create({
                     key: {id: this.DATA_TYPE_TAG, name: this.DATA_TYPE_TAG, dataType: this.DATA_TYPE_TAG},

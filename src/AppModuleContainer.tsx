@@ -1,8 +1,9 @@
-import ConcentrationGameContainer from "./modules/concentration-game/ConcentrationGameContainer.tsx";
+import AppRoutes from "./AppRoutes";
 
 const AppModuleContainer = () => {
-    return(
-        <ConcentrationGameContainer/>
+    return (
+        <AppRoutes />
     )
-}
+};
+
 export default AppModuleContainer;

@@ -1,0 +1,64 @@
+.score-board {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: #f3f4f6;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.score-board__title {
+    font-size: 2rem;
+    color: #2563eb;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.score-board__player {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.score-board__player-name {
+    color: #10b981;
+    font-weight: bold;
+}
+
+.score-board__stats {
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+    color: #1f2937;
+    font-weight: 500;
+}
+
+.score-board__stat-value {
+    font-weight: bold;
+    color: #2563eb;
+}
+
+.score-board__congratulations {
+    margin-top: 1.5rem;
+    padding: 0.75rem;
+    background: #10b981;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 🌍 Responsive */
+@media (max-width: 500px) {
+    .score-board {
+        padding: 1rem;
+    }
+
+    .score-board__title {
+        font-size: 1.5rem;
+    }
+
+    .score-board__stats {
+        font-size: 1rem;
+    }
+}

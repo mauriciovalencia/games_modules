@@ -24,10 +24,10 @@ and described in detail in this document.
 
 Operational
 
-| Name           | Type     | Options    | Default | Description                    |
-|----------------|----------|------------|---------|--------------------------------|
-| VITE_DEBUG     | Boolean  | true/false | true    | Running on dev/prod environment |
-| VITE_APP_NAME  | String   | AxonClient| AxonClient| Name of application            |
+| Name           | Type     | Options    | Default      | Description                    |
+|----------------|----------|------------|--------------|--------------------------------|
+| VITE_DEBUG     | Boolean  | true/false | true         | Running on dev/prod environment |
+| VITE_APP_NAME  | String   | Secret LEvel | Secret LEvel | Name of application            |
 
 Functional
 

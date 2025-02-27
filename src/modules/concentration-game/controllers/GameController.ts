@@ -19,9 +19,14 @@ export class GameController implements GameControllerInterface {
             user: {name: ""},
             attempts: 0,
             matches: 0,
+            errors: 0,
             cards: [],
             flippedCards: [],
             matchedCards: [],
+            isChecking: false,
+            numCols: 4,
+            numRows: 4,
+            matchingSetSize: 2,
         }
         this.gameBoardModel = {
             gameState: this.gameStateModel,
@@ -30,14 +35,12 @@ export class GameController implements GameControllerInterface {
             user: this.gameStateModel.user,
             attempts: this.gameStateModel.attempts,
             matches: this.gameStateModel.matches,
+            errors: this.gameStateModel.errors,
         }
     }
 
     private async checkMatch() {
         const [firstIndex, secondIndex] = this.gameStateModel.flippedCards;
-        console.log("FIRST_INDEX", firstIndex, "SECOND_INDEX", secondIndex);
-        console.log("IMAGE_1", this.gameCardModels[firstIndex].name);
-        console.log("IMAGE_2", this.gameCardModels[secondIndex].name);
 
         if (this.gameCardModels[firstIndex].base64 === this.gameCardModels[secondIndex].base64) {
             this.gameStateModel.matchedCards.push(firstIndex, secondIndex);
@@ -53,10 +56,18 @@ export class GameController implements GameControllerInterface {
 
     async initializeGame(): Promise<GameBoardModel> {
         try {
-            this.gameService.resetStorage(); // reset storage
+
+            const { numRows, numCols, matchingSetSize } = await this.getGameState();
+
+            this.gameBoardModel.gameState.numRows = numRows || 4;
+            this.gameBoardModel.gameState.numCols = numCols || 4;
+            this.gameBoardModel.gameState.matchingSetSize = matchingSetSize || 2;
+            this.gameBoardModel.gameState.isChecking = false;
+
             await this.setGameBoard(this.gameBoardModel); // save game
             await this.setGameScoreBoard(this.gameScoreBoardModel); // save scoreboard
             await this.gameService.buildGameCards(); // make each card of game based on images web-service response
+
             return this.gameBoardModel;
         } catch (e) {
             console.error(e);
@@ -65,13 +76,16 @@ export class GameController implements GameControllerInterface {
     }
 
     async resetGame() {
-        // window.location.reload();
-        await this.initializeGame();
+        //navigation(),
+        //window.location.reload();
+        this.gameService.resetStorage(); // reset storage
     }
 
     async handleCardClick(index: number): Promise<GameBoardModel> {
+        const {matchingSetSize} = (await this.gameService.getGameBoard()).gameState;
+        const imageMatchingSize = matchingSetSize || 2;
         if (
-            this.gameStateModel.flippedCards.length === 2 ||
+            this.gameStateModel.flippedCards.length === imageMatchingSize ||
             this.gameStateModel.matchedCards.includes(index) ||
             this.gameStateModel.isChecking
         ) {
@@ -80,7 +94,7 @@ export class GameController implements GameControllerInterface {
 
         this.gameStateModel.flippedCards.push(index);
 
-        if (this.gameStateModel.flippedCards.length === 2) {
+        if (this.gameStateModel.flippedCards.length === imageMatchingSize) {
             this.gameStateModel.isChecking = true;
 
             setTimeout(async () => {
@@ -93,6 +107,8 @@ export class GameController implements GameControllerInterface {
                 if (firstCard.base64 === secondCard.base64) {
                     this.gameStateModel.matches++;
                     this.gameStateModel.matchedCards.push(firstIndex, secondIndex);
+                }else{
+                    this.gameStateModel.errors++;
                 }
 
                 this.gameStateModel.attempts++;
@@ -103,6 +119,7 @@ export class GameController implements GameControllerInterface {
                 this.gameBoardModel.gameState = this.gameStateModel;
                 this.gameScoreBoardModel.matches = this.gameStateModel.matches;
                 this.gameScoreBoardModel.attempts = this.gameStateModel.attempts;
+                this.gameScoreBoardModel.errors = this.gameStateModel.errors;
                 await this.setGameScoreBoard(this.gameScoreBoardModel);
 
                 this.gameStateModel.isChecking = false;
@@ -117,6 +134,7 @@ export class GameController implements GameControllerInterface {
             await this.gameService.setGameState(data);
         } catch (e) {
             console.error(e);
+            throw new Error("Failed to set game state");
         }
     }
 
@@ -167,20 +185,22 @@ export class GameController implements GameControllerInterface {
 
     async getGameCards(): Promise<GameCardModel[]> {
         const cards = await this.gameService.getCards();
+        const {numRows, numCols, matchingSetSize} = (await this.gameService.getGameBoard()).gameState;
 
-        if (cards.length < 2) {
-            console.warn("Se necesitan al menos 2 cartas para generar pares.");
+        const imageMatchingSize = matchingSetSize || 2;
+        if (cards.length < imageMatchingSize) {
+            console.warn("At least 2 cards are needed to generate pairs.");
             return [];
         }
 
         // set grid
-        const rows = 8;
-        const cols = 8;
+        const rows = numRows || 4;
+        const cols = numCols || 4;
         const totalCardsNeeded = rows * cols;
 
         // adjust cards number if not it's enough
-        while (cards.length * 2 < totalCardsNeeded) {
-            cards.push(...cards.slice(0, totalCardsNeeded / 2 - cards.length));
+        while (cards.length * imageMatchingSize < totalCardsNeeded) {
+            cards.push(...cards.slice(0, totalCardsNeeded / imageMatchingSize - cards.length));
         }
 
         // Duplicate & mix cards
@@ -191,8 +211,8 @@ export class GameController implements GameControllerInterface {
 
         pairedCards = pairedCards.sort(() => Math.random() - 0.5);
 
-        // assign images in pairs
-        for (let i = 0; i < pairedCards.length; i += 2) {
+        // assign images matching
+        for (let i = 0; i < pairedCards.length; i += imageMatchingSize) {
             const testImageId = pairedCards[i].imageId;
             const testBase64 = pairedCards[i].base64;
 

@@ -9,9 +9,14 @@ export class GameBoardDto implements GameBoardModel {
             user: {name: ""},
             attempts: 0,
             matches: 0,
+            errors: 0,
             cards: [],
             flippedCards: [],
-            matchedCards: []
+            matchedCards: [],
+            numRows: 4,
+            numCols: 4,
+            matchingSetSize: 2,
+            isChecking: false,
         };
     }
 }

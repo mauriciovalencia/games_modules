@@ -4,4 +4,5 @@ export interface GameScoreBoardModel {
     user: UserModel;
     attempts: number;
     matches: number;
+    errors: number;
 }
