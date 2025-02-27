@@ -1,6 +1,4 @@
-# Concentration Games
-
-<img alt="Concentration Games" src="./src/assets/logo.png" title="Games" width="200"/>
+# Module Games
 
 User interface for playing memory-based concentration games.
 
