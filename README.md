@@ -1,6 +1,6 @@
 # Module Games
 
-User interface for playing memory-based concentration games.
+User interface for playing different module games.
 
 **Table of Contents**
 - [Environment requirements](#markdown-header-environment-requirements)
@@ -38,18 +38,43 @@ Functional
 ## Installation
 
 ```bash
-pnpm install
-```
+# Step by Step
 
-## Execution
+git clone https://github.com/mauriciovalencia/axon-client.git
+
+# copy .env values to .env execution
+cp .env.example .env
+
+# install web application libs
+pnpm install
+
+# run application
+pnpm run dev
+
+# load in the web browser
+# * copy url eg:http://localhost:5173/ and paste in url box from the web-browser, by default Google Chrome.
+
+## Remember!, pnpm install, install libs for the web aplication could run
+```
+## Execution react application
 
 ```bash
-# development
-pnpm start
+# installation
+pnp install
 
-# development watch behavior 
-pnpm start:dev
+# development (prefereable)
+pnpm run dev
 
 # production
-pnpm start:prod
+pnpm run build
 ```
+
+## Future Improvements
+Some details were not covered:
+
+- Unit tests.
+- Sincronization data in locaStorage with a API service maybe in rest or graphql.
+- Consideration of an event-driven approach in React to avoid the dreaded coupling.
+- Minor improvemnts for install modules very easily
+
+All of this, and many more improvements, could be included in a future version—possibly version 0.4.0 or beyond.
