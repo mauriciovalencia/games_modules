@@ -90,8 +90,12 @@ On start, the server allows requests from local and network devices like this
   ➜  press h + enter to show help
 
 and Enjoy the result!.
+
+## Remember! Don't forget to add firewall exceptions on the server or disable it for testing.
+
 ```
 <img src="https://github.com/user-attachments/assets/c5ab6615-0434-4dcb-9c13-5f29e70fd686" width="300">
+
 
 ## Future Improvements
 Some details were not covered:
