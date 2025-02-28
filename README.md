@@ -80,7 +80,7 @@ pnpm/npm run dev -- --host 0.0.0.0
 Mac/Linux ifconfig | grep inet
 Linux: ip a
 Windows: ipconfig 
-```
+
 On start, the server allows requests from local and network devices like this
 
   VITE v6.1.0  ready in 343 ms
@@ -91,6 +91,7 @@ On start, the server allows requests from local and network devices like this
 
 and Enjoy the result!.
 ![image](https://github.com/user-attachments/assets/c5ab6615-0434-4dcb-9c13-5f29e70fd686)
+```
 
 ## Future Improvements
 Some details were not covered:
