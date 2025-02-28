@@ -68,6 +68,29 @@ pnpm run dev
 # production
 pnpm run build
 ```
+## Open react application from another device in same network
+```bash
+# Expose server in the same network
+pnpm/npm run dev -- --host
+
+# Listen on all interfaces
+pnpm/npm run dev -- --host 0.0.0.0
+
+# Get the server's local network IP
+Mac/Linux ifconfig | grep inet
+Linux: ip a
+Windows: ipconfig 
+```
+On start, the server allows requests from local and network devices like this
+
+  VITE v6.1.0  ready in 343 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://192.168.1.86:5173/
+  ➜  press h + enter to show help
+
+and Enjoy the result!.
+![image](https://github.com/user-attachments/assets/c5ab6615-0434-4dcb-9c13-5f29e70fd686)
 
 ## Future Improvements
 Some details were not covered:
