@@ -57,12 +57,13 @@ export class GameController implements GameControllerInterface {
     async initializeGame(): Promise<GameBoardModel> {
         try {
 
-            const { numRows, numCols, matchingSetSize } = await this.getGameState();
+            const { numRows, numCols, matchingSetSize, user } = await this.getGameState();
 
             this.gameBoardModel.gameState.numRows = numRows || 4;
             this.gameBoardModel.gameState.numCols = numCols || 4;
             this.gameBoardModel.gameState.matchingSetSize = matchingSetSize || 2;
             this.gameBoardModel.gameState.isChecking = false;
+            this.gameBoardModel.gameState.user.name = user?.name;
 
             await this.setGameBoard(this.gameBoardModel); // save game
             await this.setGameScoreBoard(this.gameScoreBoardModel); // save scoreboard

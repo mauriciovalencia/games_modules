@@ -9,7 +9,7 @@ const ScoreBoard = () => {
 
     useEffect(() => {
         if (gameScoreBoardData?.user?.name) {
-            setUser(gameScoreBoardData.user.name);
+            setUser(gameScoreBoardData?.user?.name);
         }
     }, [gameScoreBoardData]);
 
